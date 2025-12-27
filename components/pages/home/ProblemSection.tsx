@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, Variants } from 'framer-motion'; // Agregar Variants al import
 import {
   TrendingDown,
   Users,
@@ -97,8 +97,8 @@ const ProblemSection = () => {
     { value: '94%', label: 'quieren más tiempo para estrategia', icon: <Clock className="w-4 h-4" /> }
   ];
 
-  // Variantes de animación
-  const containerVariants = {
+  // Variantes de animación CORREGIDAS
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -109,7 +109,7 @@ const ProblemSection = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -122,7 +122,7 @@ const ProblemSection = () => {
     }
   };
 
-  const statVariants = {
+  const statVariants: Variants = {
     hidden: { scale: 0.8, opacity: 0 },
     visible: (i: number) => ({
       scale: 1,

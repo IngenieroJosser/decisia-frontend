@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, Variants } from 'framer-motion'; // Agregar Variants al import
 import {
   Store,
   Palette,
@@ -262,8 +262,8 @@ const UseCasesSection = () => {
 
   const activeCase = useCases.find(uc => uc.id === activeUseCase) || useCases[0];
 
-  // Variantes de animación
-  const containerVariants = {
+  // Variantes de animación CORREGIDAS
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -274,7 +274,7 @@ const UseCasesSection = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -464,7 +464,7 @@ const UseCasesSection = () => {
                       className="flex items-start gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
                     >
                       <div
-                        className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                        className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                         style={{ backgroundColor: `${activeCase.color}20` }}
                       >
                         <div style={{ color: activeCase.color }}>
@@ -574,9 +574,10 @@ const UseCasesSection = () => {
                 <div className="p-4 rounded-xl bg-gradient-to-r from-white/5 to-transparent border border-white/10">
                   <h4 className="font-semibold text-white mb-3">Insights específicos</h4>
                   <div className="space-y-2">
-                    {'topProducts' in activeCase.demoData && (
+                    {/* Verificar tipo de caso para mostrar datos específicos */}
+                    {activeCase.id === 'retail' && 'topProducts' in activeCase.demoData && (
                       <>
-                        {activeCase.demoData.topProducts.map((product, i) => (
+                        {(activeCase.demoData as any).topProducts.map((product: any, i: number) => (
                           <div key={i} className="flex items-center justify-between text-sm">
                             <span className="text-gray-300">{product.name}</span>
                             <div className="flex items-center gap-3">
@@ -593,14 +594,51 @@ const UseCasesSection = () => {
                         ))}
                       </>
                     )}
-                    {'topProjects' in activeCase.demoData && (
+                    {activeCase.id === 'freelance' && 'topProjects' in activeCase.demoData && (
                       <>
-                        {activeCase.demoData.topProjects.map((project, i) => (
+                        {(activeCase.demoData as any).topProjects.map((project: any, i: number) => (
                           <div key={i} className="flex items-center justify-between text-sm">
                             <span className="text-gray-300">{project.name}</span>
                             <div className="flex items-center gap-3">
                               <span className="text-gray-400">Tarifa: ${project.rate}/h</span>
                               <span className="text-gray-400">Satisfacción: {project.satisfaction}%</span>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                    {activeCase.id === 'cafe' && 'topItems' in activeCase.demoData && (
+                      <>
+                        {(activeCase.demoData as any).topItems.map((item: any, i: number) => (
+                          <div key={i} className="flex items-center justify-between text-sm">
+                            <span className="text-gray-300">{item.name}</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-gray-400">Margen: {item.margin}%</span>
+                              <span className={`px-2 py-1 rounded text-xs ${
+                                item.waste === 'Bajo' ? 'bg-green-500/20 text-green-400' :
+                                item.waste === 'Medio' ? 'bg-yellow-500/20 text-yellow-400' :
+                                'bg-red-500/20 text-red-400'
+                              }`}>
+                                Desperdicio: {item.waste}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                    {activeCase.id === 'consultancy' && 'topClients' in activeCase.demoData && (
+                      <>
+                        {(activeCase.demoData as any).topClients.map((client: any, i: number) => (
+                          <div key={i} className="flex items-center justify-between text-sm">
+                            <span className="text-gray-300">{client.name}</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-gray-400">Rentabilidad: {client.profitability}%</span>
+                              <span className={`px-2 py-1 rounded text-xs ${
+                                client.payment === 'Puntual' ? 'bg-green-500/20 text-green-400' :
+                                'bg-red-500/20 text-red-400'
+                              }`}>
+                                {client.payment}
+                              </span>
                             </div>
                           </div>
                         ))}

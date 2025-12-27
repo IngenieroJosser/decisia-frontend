@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, Variants } from 'framer-motion'; // Agregar Variants al import
 import {
   Shield,
   Lock,
@@ -213,8 +213,8 @@ const TrustAndCredibilitySection = () => {
     }
   ];
 
-  // Variantes de animación
-  const containerVariants = {
+  // Variantes de animación CORREGIDAS
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -225,7 +225,7 @@ const TrustAndCredibilitySection = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -425,7 +425,7 @@ const TrustAndCredibilitySection = () => {
               >
                 <div className="flex items-start gap-4 mb-4">
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                     style={{ backgroundColor: `${cert.color}20` }}
                   >
                     <div style={{ color: cert.color }}>

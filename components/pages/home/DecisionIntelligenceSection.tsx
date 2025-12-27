@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, Variants } from 'framer-motion'; // Agregar Variants al import
 import {
   Brain,
   Database,
@@ -162,8 +162,8 @@ const DecisionIntelligenceSection = () => {
     }
   ];
 
-  // Variantes de animación
-  const containerVariants = {
+  // Variantes de animación CORREGIDAS
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -174,7 +174,7 @@ const DecisionIntelligenceSection = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -522,7 +522,7 @@ const DecisionIntelligenceSection = () => {
                 </div>
 
                 {/* Número de paso */}
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br from-[#0B1C2D] to-[#1FB6A6]/20 border border-white/10 flex items-center justify-center flex-shrink-0 ${
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br from-[#0B1C2D] to-[#1FB6A6]/20 border border-white/10 flex items-center justify-center shrink-0 ${
                   index % 2 === 0 ? 'order-first' : 'order-last'
                 }`}>
                   <span className="text-xl font-bold text-white">{step.step}</span>

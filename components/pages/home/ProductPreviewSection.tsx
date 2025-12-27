@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView, AnimatePresence, Variants } from 'framer-motion';
 import {
   Play,
   Pause,
@@ -33,6 +33,12 @@ const ProductPreviewSection = () => {
   const [currentDemoStep, setCurrentDemoStep] = useState(0);
   const [deviceView, setDeviceView] = useState('desktop');
   const [hoveredElement, setHoveredElement] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  // Solo ejecutar en el cliente para evitar errores de hidratación
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Pasos de la demo interactiva
   const demoSteps = [
@@ -145,8 +151,8 @@ const ProductPreviewSection = () => {
     { id: 'reports', label: 'Reportes', icon: <DollarSign className="w-4 h-4" /> }
   ];
 
-  // Variantes de animación
-  const containerVariants = {
+  // Variantes de animación CORREGIDAS
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -157,7 +163,7 @@ const ProductPreviewSection = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -170,11 +176,27 @@ const ProductPreviewSection = () => {
     }
   };
 
+  // Función para formatear números de manera consistente (evita error de hidratación)
+  const formatNumber = (num: number, type: 'currency' | 'percentage' | 'decimal' | 'plain' = 'plain') => {
+    if (!isClient) return ''; // Evita renderizar durante SSR
+
+    switch (type) {
+      case 'currency':
+        return `$${num.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+      case 'percentage':
+        return `${num.toFixed(1)}%`;
+      case 'decimal':
+        return num.toFixed(1);
+      default:
+        return num.toLocaleString('en-US');
+    }
+  };
+
   return (
     <section 
       ref={sectionRef}
       id="demo"
-      className="relative py-24 overflow-hidden bg-gradient-to-b from-[#0B1C2D] via-[#0D2238] to-[#0B1C2D]"
+      className="relative py-24 overflow-hidden bg-linear-to-b from-[#0B1C2D] via-[#0D2238] to-[#0B1C2D]"
     >
       {/* Fondo con elementos de UI */}
       <div className="absolute inset-0 overflow-hidden">
@@ -219,14 +241,14 @@ const ProductPreviewSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#1FB6A6]/20 to-[#F5A623]/20 border border-[#1FB6A6]/30 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-[#1FB6A6]/20 to-[#F5A623]/20 border border-[#1FB6A6]/30 mb-6">
             <Sparkles className="w-4 h-4 text-[#F5A623]" />
             <span className="text-sm font-medium text-white">Demo Interactiva</span>
           </div>
 
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="block text-white">Decisia en</span>
-            <span className="block bg-gradient-to-r from-[#1FB6A6] via-[#2CD9C5] to-[#1FB6A6] bg-clip-text text-transparent">
+            <span className="block bg-linear-to-r from-[#1FB6A6] via-[#2CD9C5] to-[#1FB6A6] bg-clip-text text-transparent">
               Acción
             </span>
           </h2>
@@ -276,7 +298,7 @@ const ProductPreviewSection = () => {
             </div>
             <div className="h-2 bg-white/10 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-[#1FB6A6] to-[#2CD9C5]"
+                className="h-full bg-linear-to-r from-[#1FB6A6] to-[#2CD9C5]"
                 initial={{ width: '0%' }}
                 animate={{ width: `${((currentDemoStep + 1) / demoSteps.length) * 100}%` }}
                 transition={{ duration: 0.5 }}
@@ -288,7 +310,7 @@ const ProductPreviewSection = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="p-3 rounded-xl bg-gradient-to-r from-[#1FB6A6]/20 to-[#1FB6A6]/10 border border-[#1FB6A6]/30 hover:border-[#1FB6A6]/50 transition-all"
+              className="p-3 rounded-xl bg-linear-to-r from-[#1FB6A6]/20 to-[#1FB6A6]/10 border border-[#1FB6A6]/30 hover:border-[#1FB6A6]/50 transition-all"
             >
               {isPlaying ? (
                 <Pause className="w-5 h-5 text-[#1FB6A6]" />
@@ -312,17 +334,17 @@ const ProductPreviewSection = () => {
             variants={itemVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            className={`relative rounded-2xl overflow-hidden border border-white/20 bg-gradient-to-br from-[#0B1C2D] to-[#0A1624] shadow-2xl ${
+            className={`relative rounded-2xl overflow-hidden border border-white/20 bg-linear-to-br from-[#0B1C2D] to-[#0A1624] shadow-2xl ${
               deviceView === 'mobile' ? 'max-w-sm mx-auto' :
               deviceView === 'tablet' ? 'max-w-2xl mx-auto' :
               'w-full'
             }`}
           >
             {/* Barra superior del dashboard */}
-            <div className="p-4 border-b border-white/10 bg-gradient-to-r from-white/5 to-transparent">
+            <div className="p-4 border-b border-white/10 bg-linear-to-r from-white/5 to-transparent">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#1FB6A6] to-[#0B1C2D] flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-linear-to-br from-[#1FB6A6] to-[#0B1C2D] flex items-center justify-center">
                     <BrainCircuit className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -345,7 +367,7 @@ const ProductPreviewSection = () => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all ${
                     activeTab === tab.id
-                      ? 'text-white border-b-2 border-[#1FB6A6] bg-gradient-to-t from-[#1FB6A6]/10 to-transparent'
+                      ? 'text-white border-b-2 border-[#1FB6A6] bg-linear-to-t from-[#1FB6A6]/10 to-transparent'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -371,9 +393,8 @@ const ProductPreviewSection = () => {
                       {typeof value === 'number' && key !== 'roi' ? (
                         <>
                           {key === 'sales' && '$'}
-                          {value.toLocaleString()}
-                          {key === 'growth' || key === 'churn' ? '%' : ''}
-                          {key === 'efficiency' && '%'}
+                          {formatNumber(value, key === 'sales' ? 'plain' : 'decimal')}
+                          {key === 'growth' || key === 'churn' || key === 'efficiency' ? '%' : ''}
                         </>
                       ) : (
                         `${value}x`
@@ -395,7 +416,7 @@ const ProductPreviewSection = () => {
               <div className="grid lg:grid-cols-2 gap-6 mb-8">
                 {/* Gráfico principal */}
                 <div 
-                  className="relative p-6 rounded-xl bg-gradient-to-br from-[#1FB6A6]/10 to-transparent border border-[#1FB6A6]/20"
+                  className="relative p-6 rounded-xl bg-linear-to-br from-[#1FB6A6]/10 to-transparent border border-[#1FB6A6]/20"
                   onMouseEnter={() => setHoveredElement('revenue-chart')}
                   onMouseLeave={() => setHoveredElement(null)}
                 >
@@ -427,7 +448,7 @@ const ProductPreviewSection = () => {
 
                 {/* Segmentación de clientes */}
                 <div 
-                  className="relative p-6 rounded-xl bg-gradient-to-br from-[#F5A623]/10 to-transparent border border-[#F5A623]/20"
+                  className="relative p-6 rounded-xl bg-linear-to-br from-[#F5A623]/10 to-transparent border border-[#F5A623]/20"
                   onMouseEnter={() => setHoveredElement('customer-segments')}
                   onMouseLeave={() => setHoveredElement(null)}
                 >
@@ -452,7 +473,7 @@ const ProductPreviewSection = () => {
                         </div>
                         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                           <div 
-                            className="h-full bg-gradient-to-r from-[#F5A623] to-[#FFC107] rounded-full"
+                            className="h-full bg-linear-to-r from-[#F5A623] to-[#FFC107] rounded-full"
                             style={{ width: `${[80, 60, 95, 30][i]}%` }}
                           />
                         </div>
@@ -465,7 +486,7 @@ const ProductPreviewSection = () => {
               {/* Insights y recomendaciones */}
               <div className="grid lg:grid-cols-2 gap-6">
                 {/* Insights generados por IA */}
-                <div className="p-6 rounded-xl bg-gradient-to-br from-[#6366F1]/10 to-transparent border border-[#6366F1]/20">
+                <div className="p-6 rounded-xl bg-linear-to-br from-[#6366F1]/10 to-transparent border border-[#6366F1]/20">
                   <div className="flex items-center gap-3 mb-6">
                     <BrainCircuit className="w-5 h-5 text-[#6366F1]" />
                     <div className="font-semibold text-white">Insights de IA</div>
@@ -491,7 +512,7 @@ const ProductPreviewSection = () => {
                 </div>
 
                 {/* Recomendaciones accionables */}
-                <div className="p-6 rounded-xl bg-gradient-to-br from-[#EC4899]/10 to-transparent border border-[#EC4899]/20">
+                <div className="p-6 rounded-xl bg-linear-to-br from-[#EC4899]/10 to-transparent border border-[#EC4899]/20">
                   <div className="flex items-center gap-3 mb-6">
                     <Target className="w-5 h-5 text-[#EC4899]" />
                     <div className="font-semibold text-white">Recomendaciones</div>
@@ -528,7 +549,7 @@ const ProductPreviewSection = () => {
             </div>
 
             {/* Estado actual de la demo */}
-            <div className="p-4 border-t border-white/10 bg-gradient-to-r from-white/5 to-transparent">
+            <div className="p-4 border-t border-white/10 bg-linear-to-r from-white/5 to-transparent">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className={`w-2 h-2 rounded-full ${
@@ -570,7 +591,7 @@ const ProductPreviewSection = () => {
                       transform: 'translate(-50%, -100%)'
                     }}
                   >
-                    <div className="relative w-64 p-4 rounded-xl bg-gradient-to-br from-[#0B1C2D] to-[#0A1624] border border-white/20 shadow-2xl">
+                    <div className="relative w-64 p-4 rounded-xl bg-linear-to-br from-[#0B1C2D] to-[#0A1624] border border-white/20 shadow-2xl">
                       <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rotate-45 bg-[#0B1C2D] border-r border-b border-white/20" />
                       <div className="flex items-start gap-3 mb-3">
                         <div 
@@ -586,7 +607,7 @@ const ProductPreviewSection = () => {
                           <p className="text-sm text-gray-300">{element.description}</p>
                         </div>
                       </div>
-                      <button className="w-full py-2 rounded-lg bg-gradient-to-r from-white/10 to-white/5 text-sm font-medium text-white hover:bg-white/20 transition-colors">
+                      <button className="w-full py-2 rounded-lg bg-linear-to-r from-white/10 to-white/5 text-sm font-medium text-white hover:bg-white/20 transition-colors">
                         Explorar función
                       </button>
                     </div>
@@ -653,7 +674,7 @@ const ProductPreviewSection = () => {
           className="text-center mt-16"
         >
           <div className="inline-flex flex-col sm:flex-row gap-4">
-            <button className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#1FB6A6] to-[#1FB6A6]/90 text-white font-bold hover:shadow-2xl hover:shadow-[#1FB6A6]/20 transition-all">
+            <button className="px-8 py-4 rounded-xl bg-linear-to-r from-[#1FB6A6] to-[#1FB6A6]/90 text-white font-bold hover:shadow-2xl hover:shadow-[#1FB6A6]/20 transition-all">
               Probar Decisia Gratis
             </button>
             <button className="px-8 py-4 rounded-xl border-2 border-white/20 text-white font-medium hover:border-white/40 transition-all">

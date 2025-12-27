@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView, AnimatePresence, Variants } from 'framer-motion';
 import {
   Rocket,
   Sparkles,
@@ -126,57 +126,8 @@ const CallToActionFinal = () => {
     }
   ];
 
-  // Razones para actuar ahora
-  const urgencyReasons = [
-    {
-      number: '01',
-      title: 'Oportunidad limitada',
-      description: 'Precio especial de lanzamiento',
-      deadline: 'Quedan 3 días'
-    },
-    {
-      number: '02',
-      title: 'Bonos exclusivos',
-      description: 'Setup gratuito + 1 mes adicional',
-      deadline: 'Solo para primeros 100'
-    },
-    {
-      number: '03',
-      title: 'Competencia avanza',
-      description: 'Otros negocios ya están optimizando',
-      deadline: 'Ventaja competitiva'
-    }
-  ];
-
-  // Testimonios de conversión
-  const conversionTestimonials = [
-    {
-      quote: "Registré mi tienda en 3 minutos. En 2 semanas ya estaba tomando mejores decisiones de inventario. Increíble.",
-      name: "Laura Martínez",
-      business: "Tienda de decoración",
-      time: "Hace 15 días",
-      improvement: "+31% en ventas"
-    },
-    {
-      quote: "Como consultor freelance, Decisia me dio la claridad que necesitaba para triplicar mis tarifas sin perder clientes.",
-      name: "Diego Ramírez",
-      business: "Consultoría digital",
-      time: "Hace 1 mes",
-      improvement: "3x ROI en 30 días"
-    },
-    {
-      quote: "De perder dinero en productos que no se vendían a tener el margen más alto de los últimos 5 años. Gracias Decisia.",
-      name: "Sofía Chen",
-      business: "Cafetería boutique",
-      time: "Hace 3 meses",
-      improvement: "+45% margen"
-    }
-  ];
-
-  const activePlanData = pricingPlans.find(plan => plan.id === activePlan) || pricingPlans[1];
-
-  // Variantes de animación
-  const containerVariants = {
+  // Variantes de animación CORREGIDAS
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -187,7 +138,7 @@ const CallToActionFinal = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -212,13 +163,15 @@ const CallToActionFinal = () => {
     }
   };
 
+  const activePlanData = pricingPlans.find(plan => plan.id === activePlan) || pricingPlans[1];
+
   return (
     <section 
       ref={sectionRef}
       id="comenzar"
       className="relative py-24 overflow-hidden bg-gradient-to-b from-[#0A1624] via-[#0B1C2D] to-[#0A1624]"
     >
-      {/* Fondo con elementos de conversión */}
+      {/* Resto del código permanece igual... */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Partículas animadas */}
         <div className="absolute inset-0">
@@ -271,7 +224,7 @@ const CallToActionFinal = () => {
           </h2>
 
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
-             Comienza ya transformndo tus operaciones con Decisia. 
+             Comienza ya transformando tus operaciones con Decisia. 
             <span className="text-white font-semibold"> Ahora es tu turno.</span>
           </p>
         </motion.div>
@@ -511,7 +464,7 @@ const CallToActionFinal = () => {
                 <div>
                   <label className="block text-sm font-medium text-gray-400 mb-2">
                     Correo electrónico
-                                  </label>
+                  </label>
                   <input
                     type="email"
                     value={email}

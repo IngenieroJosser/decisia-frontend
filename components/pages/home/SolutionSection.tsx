@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, Variants } from 'framer-motion'; // Agregar Variants al import
 import {
   BrainCircuit,
   Target,
@@ -141,8 +141,8 @@ const SolutionSection = () => {
     }
   ];
 
-  // Variantes de animación
-  const containerVariants = {
+  // Variantes de animación CORREGIDAS
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -153,7 +153,7 @@ const SolutionSection = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { 
       y: 30, 
       opacity: 0,
@@ -171,7 +171,7 @@ const SolutionSection = () => {
     }
   };
 
-  const transformVariants = {
+  const transformVariants: Variants = {
     hidden: { width: 0, opacity: 0 },
     visible: (i: number) => ({
       width: "100%",
@@ -364,7 +364,7 @@ const SolutionSection = () => {
               className="group relative"
             >
               {/* Tarjeta de solución */}
-              <div className={`relative h-full rounded-2xl bg-gradient-to-br from-[#0B1C2D] to-[#0D2238] border-2 border-white/[0.12] overflow-hidden backdrop-blur-sm`}>
+              <div className={`relative h-full rounded-2xl bg-gradient-to-br from-[#0B1C2D] to-[#0D2238] border-2 border-white/12 overflow-hidden backdrop-blur-sm`}>
                 {/* Indicador de efectividad */}
                 <div className="absolute top-4 right-4">
                   <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#1FB6A6]/20 to-[#F5A623]/10 backdrop-blur-sm">
@@ -465,7 +465,7 @@ const SolutionSection = () => {
                 <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-[#1FB6A6]/30 transition-all duration-500 pointer-events-none" />
                 
                 {/* Efecto de energía */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/2 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </div>
 
               {/* Demo preview (aparece al hover) */}
