@@ -20,6 +20,7 @@ import {
   Globe,
   Database
 } from 'lucide-react';
+import Image from 'next/image';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -69,9 +70,13 @@ const Sidebar = ({ isOpen, activeView, onViewChange, onToggle }: SidebarProps) =
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   className="absolute -inset-2 rounded-full border border-[#1FB6A6]/30"
                 />
-                <div className="relative w-8 h-8 rounded-lg bg-gradient-to-br from-[#1FB6A6] to-[#2CD9C5] flex items-center justify-center">
-                  <Zap className="w-4 h-4 text-white" />
-                </div>
+                <Image
+                  src='/favicon-32x32.png'
+                  alt='Logo Oficial de Decisia'
+                  width={32}
+                  height={32}
+                  className='object-cover'
+                />
               </div>
               <div>
                 <div className="font-bold text-white">Decisia</div>
@@ -83,7 +88,7 @@ const Sidebar = ({ isOpen, activeView, onViewChange, onToggle }: SidebarProps) =
               <Zap className="w-4 h-4 text-white" />
             </div>
           )}
-          
+
           <button
             onClick={onToggle}
             className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
@@ -115,11 +120,10 @@ const Sidebar = ({ isOpen, activeView, onViewChange, onToggle }: SidebarProps) =
               <button
                 key={item.id}
                 onClick={() => onViewChange(item.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
-                  activeView === item.id
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${activeView === item.id
                     ? 'bg-gradient-to-r from-[#1FB6A6]/20 to-transparent border border-[#1FB6A6]/30 text-white'
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
-                }`}
+                  }`}
               >
                 <div className={activeView === item.id ? 'text-[#1FB6A6]' : ''}>
                   {item.icon}
@@ -146,11 +150,10 @@ const Sidebar = ({ isOpen, activeView, onViewChange, onToggle }: SidebarProps) =
               <button
                 key={item.id}
                 onClick={() => onViewChange(item.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
-                  activeView === item.id
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${activeView === item.id
                     ? 'bg-gradient-to-r from-[#F5A623]/20 to-transparent border border-[#F5A623]/30 text-white'
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
-                }`}
+                  }`}
               >
                 <div className={activeView === item.id ? 'text-[#F5A623]' : ''}>
                   {item.icon}

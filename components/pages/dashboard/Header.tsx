@@ -1,11 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { 
-  Menu, 
-  Bell, 
-  Search, 
-  Settings, 
+import {
+  Menu,
+  Bell,
+  Search,
+  Settings,
   Wifi,
   WifiOff,
   RefreshCw,
@@ -13,6 +13,7 @@ import {
   Zap
 } from 'lucide-react';
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface HeaderProps {
   lastUpdated: string;
@@ -21,11 +22,11 @@ interface HeaderProps {
   onSidebarToggle: () => void;
 }
 
-const Header = ({ 
-  lastUpdated, 
-  isRealTime, 
-  onRealTimeToggle, 
-  onSidebarToggle 
+const Header = ({
+  lastUpdated,
+  isRealTime,
+  onRealTimeToggle,
+  onSidebarToggle
 }: HeaderProps) => {
   const [notifications, setNotifications] = useState(3);
 
@@ -49,9 +50,13 @@ const Header = ({
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                   className="absolute -inset-1 rounded-full border border-[#1FB6A6]/30"
                 />
-                <div className="relative w-6 h-6 rounded-lg bg-gradient-to-br from-[#1FB6A6] to-[#2CD9C5] flex items-center justify-center">
-                  <Zap className="w-3 h-3 text-white" />
-                </div>
+                <Image
+                  src='/decisia-logo-without-bg.png'
+                  alt='Logo Oficial de Decisia'
+                  width={100}
+                  height={100}
+                  className='object-contain'
+                />
               </div>
               <div>
                 <h1 className="font-semibold text-white">Decisia Dashboard</h1>
